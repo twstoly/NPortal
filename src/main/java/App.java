@@ -79,6 +79,15 @@ public class App {
             }
         });
 
+        get("/users/:id", "application/json", (req, res) -> {
+            int userId = Integer.parseInt(req.params("id"));
+            User userToFind = userDao.findById(userId);
+            Department department = departmentDao.findById(userToFind.getDepartmentId());
+            Map<String, Object> jsonMap = new HashMap<>();
+            jsonMap.put("user", userToFind);
+            jsonMap.put("department", department);
+            return gson.toJson(jsonMap);
+        });
 
 
 
