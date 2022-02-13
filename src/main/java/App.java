@@ -43,6 +43,11 @@ public class App {
             return gson.toJson(department);
         });
 
+        get("/departments", "application/json", (req, res) -> {
+            res.type("application/json");
+            return gson.toJson(departmentDao.getAll());
+        });
+
 
 
 
