@@ -5,12 +5,17 @@
 REST API news Portal Application
 
 ##### Technologies Used
->Java 
-######> POSTGRES 
+>Java
+> 
+> POSTGRES 
+> 
 >Spark 
-######> Gradle
->JUnit
-######>Postman
+> 
+> Gradle 
+> 
+>JUnit 
+> 
+>Postman
 ##### ~ ~ SetUp ~ ~
 
 * Clone repository
