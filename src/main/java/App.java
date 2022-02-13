@@ -96,8 +96,27 @@ public class App {
             return gson.toJson(news);
         });
 
+        get("/news", "application/json", (req, res) -> {
+            if (newsDao.getAll().size() == 0) {
+                return "{\"message\":\"I'm sorry, but no news are currently listed.\"}";
+            } else{
+                return gson.toJson(newsDao.getAll());
+            }
+        });
 
-
+        post("/departments/:id/news/new", "application/json", (req, res) -> {
+            int departmentId = Integer.parseInt(req.params("id"));
+            Department departmentToFind = departmentDao.findById(departmentId);
+            if (departmentToFind == null ){
+                throw new ApiExceptions(404, String.format("No department with id: %s exists", req.params("id")));
+            } else {
+                DepartmentNews news = gson.fromJson(req.body(), DepartmentNews.class);
+                news.setDepartmentId(departmentId);
+                departmentNewsDao.add(news);
+                res.status(201);
+                return gson.toJson(news);
+            }
+        });
 
 
 
