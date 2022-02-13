@@ -118,8 +118,53 @@ public class App {
             }
         });
 
+        get("/departments/:id/news", "application/json", (req, res) -> {
+            int departmentId = Integer.parseInt(req.params("id"));
+            Department departmentToFind = departmentDao.findById(departmentId);
+            List<DepartmentNews> news = departmentDao.getAllNewsByDepartment(departmentToFind.getId());
+            if (departmentToFind == null ){
+                throw new ApiExceptions(404, String.format("No department with id: %s exists", req.params("id")));
+            } else if(news.size() == 0) {
+                return "{\"message\":\"I'am sorry there are no news in this department currently.\"}";
+            } else {
+                return gson.toJson(news);
+            }
+        });
 
+        //this should allow us see users of a given department and link to their news(that department news)
+        get("/departments/:id/users/news", "application/json", (req, res) -> {
+            int departmentId = Integer.parseInt(req.params("id"));
+            Department departmentToFind = departmentDao.findById(departmentId);
+            if (departmentToFind == null ){
+                throw new ApiExceptions(404, String.format("No department with id: %s exists", req.params("id")));
+            } else {
+                Map<String, Object> model = new HashMap<>();
+                List<User> users = departmentDao.getAllUsersByDepartment(departmentToFind.getId());
+                String news = String.format("/departments/%s/news", req.params("id"));
+                if (users.size() == 0) {
+                    String message = "I'm sorry, there are no users currently.";
+                    model.put("department", departmentToFind);
+                    model.put("message", message);
+                    model.put("departmentNews", news);
+                    return gson.toJson(model);
+                }else {
+                    model.put("department", departmentToFind);
+                    model.put("departmentUsers", users);
+                    model.put("departmentNews", news);
+                    return gson.toJson(model);
+                }
+            }
+        });
 
+        exception(ApiExceptions.class, (exception, req, res) -> {
+            ApiExceptions err = exception;
+            Map<String, Object> model = new HashMap<>();
+            model.put("status", err.getStatusCode());
+            model.put("errorMessage", err.getMessage());
+            res.type("application/json");
+            res.status(err.getStatusCode());
+            res.body(gson.toJson(model));
+        });
 
 
 
