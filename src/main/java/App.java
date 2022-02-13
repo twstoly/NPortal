@@ -36,6 +36,12 @@ public class App {
         userDao = new Sql2oUserDao(sql2o);
 
 
+        post("/departments/new", "application/json", (req, res) -> {
+            Department department = gson.fromJson(req.body(), Department.class);
+            departmentDao.add(department);
+            res.status(201);
+            return gson.toJson(department);
+        });
 
 
 
