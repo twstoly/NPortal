@@ -1,26 +1,27 @@
 SET MODE postgres
 
-CREATE TABLE IF NOT EXISTS department(
-    id int PRIMARY KEY auto_increment,
+CREATE TABLE IF NOT EXISTS departments(
+    id SERIAL PRIMARY KEY auto_increment,
     name VARCHAR,
     description VARCHAR,
     numberOfEmployees INTEGER
 )
 
 CREATE TABLE IF NOT EXISTS news(
-    id int PRIMARY KEY auto_increment,
+    id SERIAL PRIMARY KEY auto_increment,
     content VARCHAR,
     author VARCHAR,
-    numberOfEmployees INTEGER
+    departmentId INTEGER,
+     type VARCHAR
 )
 
 CREATE TABLE IF NOT EXISTS users(
-    id int PRIMARY KEY auto_increment,
+    id SERIAL PRIMARY KEY auto_increment,
     name VARCHAR,
     role VARCHAR,
     departmentId INTEGER
 )
-
+CREATE DATABASE call_api_test WITH TEMPLATE call_api;
 
 
 
