@@ -32,13 +32,7 @@ class DepartmentTest {
         Department testDepartment = setUpNewDepartment();
         assertEquals(5, testDepartment.getNumberOfEmployees());
     }
-
-
-
-
-
-
-
+    
     @Test
     public void getId_DepartmentInstantiatesWithAnId_0() {
         Department newDepartment = setUpNewDepartment();
